@@ -1,15 +1,17 @@
 import sys
-from pprint import pprint
+import click
 
 def strip_list(elements):
     return map(str.strip, elements)
 
 def make_unique(elements):
-    return strip_list(set(elements))
+    return set(elements)
 
-def read_input():
-    unique = make_unique(sys.stdin)
-    sys.stdout.write(','.join(unique))
+@click.command()
+@click.option('--output', default='\n', help='Specify the element to join the resulting list.')
+def main(output):
+    unique = make_unique(strip_list(sys.stdin))
+    click.echo(output.join(unique))
 
 if __name__ == "__main__":
-    read_input()
+    main()
